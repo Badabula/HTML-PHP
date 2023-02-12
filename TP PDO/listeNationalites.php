@@ -82,49 +82,63 @@
 
     
   </head>
+
+
   <body>
     
   
-  <?php include "header.php";
-    include "connexionPDO.php";
-    
-    $req=$monPdo->prepare("select * from nationalite");
-    $req->setFetchMode(PDO::FETCH_OBJ);
-    $req->execute();
-    $lesNationalites=$req->fetchAll();
-    
-    
+    <?php include "header.php";
+      include "connexionPDO.php";
+      include "fontawesome.php";
+      
+      $req=$monPdo->prepare("select * from nationalite");
+      $req->setFetchMode(PDO::FETCH_OBJ);
+      $req->execute();
+      $lesNationalites=$req->fetchAll();
+      
+      
     ?>
-    <main>
-    
-        <table class="table">
-        <thead>
-            <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-         <?php foreach($lesNationalites as $nationalite)
-         echo "<tr>";
-         echo"<td>$nationalite->num</td>";
-         echo"<td>$nationalite->libelle</td>";
-         echo"<td>1</td>";
-         echo"</tr>";
-         ?>
-        </tbody>
+
+    <div class="container mt-5">
+      <div class="row pt-3">
+        <div class="col-9"><h1 class= "h1">Liste des nationalités</h1></div> 
+        <div class="col-3"><a href="" class="btn btn-success">créer une nationalité</a></div>
+      </div>  
+      
+        <table class="table table-hover">
+          <thead>
+              <tr class="d-flex">
+              <th scope="col" class="col-md-2">Numéro</th>
+              <th scope="col" class="col-md-8">libelle</th>
+              <th scope="col" class="col-md-2">Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+            <?php foreach($lesNationalites as $nationalite)
+            {
+              echo "<tr class='d-flex'>";
+              echo"<td class='col-md-2'>$nationalite->num</td>";
+              echo"<td class='col-md-8'>$nationalite->libelle</td>";
+              echo"<td class='col-md-2'>
+              <a href=' ' class='btn btn-primary'><i class='fas fa-pen'></i></a>
+              <a href=' ' class='btn btn-danger'><i class='fas fa-trash'></i></a>
+              </td>";
+              echo"</tr>";
+            }
+            ?>
+          </tbody>
         </table>
-  
-
+      
+          
     
 
-        <footer class="pt-3 mt-4 text-muted border-top">
-         &copy; 2022
-        </footer>
+      
+
+          <footer class="pt-3 mt-4 text-muted border-top">
+          &copy; 2022
+          </footer>
     
-    </main>
+    </div>
 
 
     
