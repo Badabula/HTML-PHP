@@ -87,60 +87,34 @@
   <body>
     
   
-    <?php include "header.php";
-      include "connexionPDO.php";
-      include "fontawesome.php";
-      
-      $req=$monPdo->prepare("select * from nationalite");
-      $req->setFetchMode(PDO::FETCH_OBJ);
-      $req->execute();
-      $lesNationalites=$req->fetchAll();
-      
-      
-    ?>
+    <?php include "header.php"; ?>
 
-    <div class="container mt-5">
-      <div class="row pt-3">
-        <div class="col-9"><h1 class= "h1">Liste des nationalités</h1></div> 
-        <div class="col-3"><a href="formAjoutNationalite.php" class="btn btn-success">créer une nationalité</a></div>
-      </div>  
-      
-        <table class="table table-hover">
-          <thead>
-              <tr class="d-flex">
-              <th scope="col" class="col-md-2">Numéro</th>
-              <th scope="col" class="col-md-8">libelle</th>
-              <th scope="col" class="col-md-2">Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-            <?php foreach($lesNationalites as $nationalite)
-            {
-              echo "<tr class='d-flex'>";
-              echo"<td class='col-md-2'>$nationalite->num</td>";
-              echo"<td class='col-md-8'>$nationalite->libelle</td>";
-              echo"<td class='col-md-2'>
-              <a href=' ' class='btn btn-primary'><i class='fas fa-pen'></i></a>
-              <a href=' ' class='btn btn-danger'><i class='fas fa-trash'></i></a>
-              </td>";
-              echo"</tr>";
-            }
-            ?>
-          </tbody>
-        </table>
+    <div class="container mt-2">
+      <h2 class='text-center'>ajouter une nationalité</h2>
+    <form action="valideAjoutNationalite.php" method="post" class="col-md-6 offset-md-3">
+        <div class="form-group">
+            <label for="libelle" class="mb-2">Libellé</label>
+            <input type="text" class='form-control' id='libelle' placeholder="Saisir libellé" name='libelle'>
+        </div>
+    
+    <div class="row mt-2">
+        <div class="col"><a href="listeNationalites.php" class="btn btn-warning w-100">Revenir a la liste</a></div>
+        <div class="col"><button type="submit" class="btn btn-success w-100">ajouter</button></div>
+    </div>
+    </form>
       
           
     
 
       
 
-          <footer class="pt-3 mt-4 text-muted border-top">
-          &copy; 2022
-          </footer>
+       
     
     </div>
 
-
+    <footer class="pt-3 mt-4 text-muted border-top">
+          &copy; 2022
+    </footer>
     
   </body>
 </html>

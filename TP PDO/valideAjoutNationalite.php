@@ -82,63 +82,35 @@
 
     
   </head>
-
-
   <body>
     
-  
+<main>
+
     <?php include "header.php";
-      include "connexionPDO.php";
-      include "fontawesome.php";
-      
-      $req=$monPdo->prepare("select * from nationalite");
-      $req->setFetchMode(PDO::FETCH_OBJ);
-      $req->execute();
-      $lesNationalites=$req->fetchAll();
-      
-      
+    include "connexionPDO.php";
+    $libelle=$_POST['libelle'];
+
+    $req=$monPdo->prepare("insert into nationalite(libelle) values(:libelle)");
+    $req->bindParam(':libelle', $libelle);
+    $nb=$req->execute();
+    
+    echo '<div class="container mt-5">';
+    
+
+    if($nb == 1){
+        echo '<div class="alert alert-success" role="alert">la nationalité a ete bien ajouté</div>';
+    }else{
+        echo'<div class="alert alert-success" role="alert">la nationalié n\'a pas été ajoutée</div>';
+    }
     ?>
-
-    <div class="container mt-5">
-      <div class="row pt-3">
-        <div class="col-9"><h1 class= "h1">Liste des nationalités</h1></div> 
-        <div class="col-3"><a href="formAjoutNationalite.php" class="btn btn-success">créer une nationalité</a></div>
-      </div>  
-      
-        <table class="table table-hover">
-          <thead>
-              <tr class="d-flex">
-              <th scope="col" class="col-md-2">Numéro</th>
-              <th scope="col" class="col-md-8">libelle</th>
-              <th scope="col" class="col-md-2">Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-            <?php foreach($lesNationalites as $nationalite)
-            {
-              echo "<tr class='d-flex'>";
-              echo"<td class='col-md-2'>$nationalite->num</td>";
-              echo"<td class='col-md-8'>$nationalite->libelle</td>";
-              echo"<td class='col-md-2'>
-              <a href=' ' class='btn btn-primary'><i class='fas fa-pen'></i></a>
-              <a href=' ' class='btn btn-danger'><i class='fas fa-trash'></i></a>
-              </td>";
-              echo"</tr>";
-            }
-            ?>
-          </tbody>
-        </table>
-      
-          
+    <a href="listeNationalites.php" class="btn btn-primary">liste des nationalités</a>
     
 
-      
-
-          <footer class="pt-3 mt-4 text-muted border-top">
-          &copy; 2022
-          </footer>
-    
-    </div>
+    <footer class="pt-3 mt-4 text-muted border-top">
+      &copy; 2022
+    </footer>
+  </div>
+</main>
 
 
     
