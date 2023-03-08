@@ -82,39 +82,39 @@
 
     
   </head>
-
-
   <body>
     
-  
-    <?php include "header.php"; ?>
+<main>
 
-    <div class="container mt-2">
-      <h2 class='text-center'>ajouter une nationalité</h2>
-    <form action="valideAjoutNationalite.php" method="post" class="col-md-6 offset-md-3">
-        <div class="form-group">
-            <label for="libelle" class="mb-2">Libellé</label>
-            <input type="text" class='form-control' id='libelle' placeholder="Saisir libellé" name='libelle'>
-        </div>
+    <?php include "header.php";
+    include "connexionPDO.php";
+    $num=$_GET['num'];
     
-    <div class="row mt-2">
-        <div class="col"><a href="listeNationalites.php" class="btn btn-warning w-100">Revenir a la liste</a></div>
-        <div class="col"><button type="submit" class="btn btn-success w-100">ajouter</button></div>
-    </div>
-    </form>
-      
-          
+    $req=$monPdo->prepare("delete from nationalite where num = :num");
+    $req->bindParam(':num', $num);
+    $nb=$req->execute();
+
+    
+    
+    echo '<div class="container mt-5">';
     
 
-      
-
-       
+    if($nb == 1){
+        echo '<div class="alert alert-success" role="alert">la nationalité a ete bien supprimé</div>';
+    }else{
+        echo'<div class="alert alert-success" role="alert">la nationalié n\'a pas été supprimé</div>';
+    }
+    ?>
+    <a href="listeNationalites.php" class="btn btn-primary">liste des nationalités</a>
     
-    </div>
 
     <footer class="pt-3 mt-4 text-muted border-top">
-          &copy; 2022
+      &copy; 2022
     </footer>
+  </div>
+</main>
+
+
     
   </body>
 </html>

@@ -82,37 +82,54 @@
 
     
   </head>
+
+
   <body>
     
-<main>
-
-    <?php include "header.php";
-    include "connexionPDO.php";
-    $libelle=$_POST['libelle'];
-
-    $req=$monPdo->prepare("insert into nationalite(libelle) values(:libelle)");
-    $req->bindParam(':libelle', $libelle);
-    $nb=$req->execute();
+  
+    <?php include "header.php"; 
+    include "fontawesome.php";
+    $action=$_GET['action'];
     
-    echo '<div class="container mt-5">';
-    
-
-    if($nb == 1){
-        echo '<div class="alert alert-success" role="alert">la nationalité a ete bien ajouté</div>';
-    }else{
-        echo'<div class="alert alert-success" role="alert">la nationalié n\'a pas été ajoutée</div>';
+    if ($action == "Modifier") {
+      include "connexionPDO.php";
+      $num=$_GET['num'];
+      $req=$monPdo->prepare("select * from nationalite where num= :num");
+      $req->setFetchMode(PDO::FETCH_OBJ);
+      $req->bindParam(':num', $num);
+      $req->execute();
+      $laNationalite=$req->fetch();
     }
     ?>
-    <a href="listeNationalites.php" class="btn btn-primary">liste des nationalités</a>
+
+    <div class="container mt-2">
+      <h2 class='text-center'><?php echo $action ?> une nationalité</h2>
+    <form action="valideFormNationalite.php?action=<?php echo $action ?>" method="post" class="col-md-6 offset-md-3">
+        <div class="form-group">
+            <label for="libelle" class="mb-2">Libellé</label>
+            <input type="text" class='form-control' id='libelle' placeholder="Saisir libellé" name='libelle' value="<?php if ($action == "Modifier") {echo $laNationalite->libelle;} ?>">
+        </div>
+        
+        <input type="hidden" id="num" name="num" value="<?php if ($action == "Modifier") {echo $laNationalite->num;} ?>">
+    
+    <div class="row mt-2">
+        <div class="col"><a href="listeNationalites.php" class="btn btn-warning w-100">Revenir a la liste</a></div>
+        <div class="col"><button type='submit' class='btn btn-success w-100'> <?php echo $action ?></button></div>
+    </div>
+    </form>
+      
+          
     
 
+      
+
+       
+    
+    </div>
+
     <footer class="pt-3 mt-4 text-muted border-top">
-      &copy; 2022
+          &copy; 2022
     </footer>
-  </div>
-</main>
-
-
     
   </body>
 </html>

@@ -82,74 +82,47 @@
 
     
   </head>
-
   <body>
     
-  
-    <?php
-    include "header.php";
+<main>
+
+    <?php include "header.php";
     include "connexionPDO.php";
-    include "fontawesome.php";
+    $action=$_GET['action'];
+    $num=$_POST['num'];
+    $libelle=$_POST['libelle'];
 
-    $req = $monPdo->prepare("select * from nationalite");
-    $req->setFetchMode(PDO::FETCH_OBJ);
-    $req->execute();
-    $lesNationalites = $req->fetchAll();
+    if ($action == "Modifier") {
+      $req=$monPdo->prepare("update nationalite set libelle = :libelle where num = :num");
+      $req->bindParam(':libelle', $libelle);
+      $req->bindParam(':num', $num);
+    }else {
+      $req=$monPdo->prepare("insert into nationalite(libelle) values(:libelle)");
+      $req->bindParam(':libelle', $libelle);
+    }
+    $nb=$req->execute();
+
+    $message=$action == "Modifier" ? "modifiée" : "ajoutée";
+    
+    echo '<div class="container mt-5">';
+    
+
+    if($nb == 1){
+        echo '<div class="alert alert-success" role="alert">la nationalité a ete bien ' . $message . '</div>';
+    }else{
+        echo'<div class="alert alert-success" role="alert">la nationalié n\'a pas été ' . $message . '</div>';
+    }
     ?>
+    <a href="listeNationalites.php" class="btn btn-primary">liste des nationalités</a>
+    
 
-    <div class="container mt-5">
-      <div class="row pt-3">
-        <div class="col-9"><h1 class= "h1">Liste des nationalités</h1></div> 
-        <div class="col-3"><a href="formNationalite.php?action=Ajouter" class="btn btn-success">créer une nationalité</a></div>
-      </div>  
-      
-        <table class="table table-hover">
-          <thead>
-              <tr class="d-flex">
-              <th scope="col" class="col-md-2">Numéro</th>
-              <th scope="col" class="col-md-8">libelle</th>
-              <th scope="col" class="col-md-2">Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($lesNationalites as $nationalite) {
-                echo "<tr class='d-flex'>";
-                echo "<td class='col-md-2'>$nationalite->num</td>";
-                echo "<td class='col-md-8'>$nationalite->libelle</td>";
-                echo "<td class='col-md-2'>
-              <a href='formNationalite.php?action=Modifier&num=$nationalite->num' class='btn btn-primary'><i class='fas fa-pen'></i></a>
-              <button type='button' data-bs-toggle='modal' data-bs-target='#examplemModal' class='btn btn-danger'><i class='fas fa-trash'></i></button>
-              </td>";
-                echo "</tr>";
-                //supprimerNationalite.php?num=$nationalite->num
-            } ?>
-          </tbody>
-        </table>
-
-        
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-            </div>
-        </div>
-        </div>
-  
-    <footer>
-      <?php include "footer.php";?>
+    <footer class="pt-3 mt-4 text-muted border-top">
+      &copy; 2022
     </footer>
+  </div>
+</main>
 
+
+    
   </body>
 </html>

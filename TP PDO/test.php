@@ -83,50 +83,13 @@
     
   </head>
 
+
   <body>
-    
-  
-    <?php
-    include "header.php";
-    include "connexionPDO.php";
-    include "fontawesome.php";
-
-    $req = $monPdo->prepare("select * from nationalite");
-    $req->setFetchMode(PDO::FETCH_OBJ);
-    $req->execute();
-    $lesNationalites = $req->fetchAll();
-    ?>
-
-    <div class="container mt-5">
-      <div class="row pt-3">
-        <div class="col-9"><h1 class= "h1">Liste des nationalités</h1></div> 
-        <div class="col-3"><a href="formNationalite.php?action=Ajouter" class="btn btn-success">créer une nationalité</a></div>
-      </div>  
-      
-        <table class="table table-hover">
-          <thead>
-              <tr class="d-flex">
-              <th scope="col" class="col-md-2">Numéro</th>
-              <th scope="col" class="col-md-8">libelle</th>
-              <th scope="col" class="col-md-2">Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($lesNationalites as $nationalite) {
-                echo "<tr class='d-flex'>";
-                echo "<td class='col-md-2'>$nationalite->num</td>";
-                echo "<td class='col-md-8'>$nationalite->libelle</td>";
-                echo "<td class='col-md-2'>
-              <a href='formNationalite.php?action=Modifier&num=$nationalite->num' class='btn btn-primary'><i class='fas fa-pen'></i></a>
-              <button type='button' data-bs-toggle='modal' data-bs-target='#examplemModal' class='btn btn-danger'><i class='fas fa-trash'></i></button>
-              </td>";
-                echo "</tr>";
-                //supprimerNationalite.php?num=$nationalite->num
-            } ?>
-          </tbody>
-        </table>
-
-        
+        <?php include "header.php"; ?>
+            <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+        </button>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -146,8 +109,8 @@
             </div>
         </div>
         </div>
-  
-    <footer>
+
+        <footer>
       <?php include "footer.php";?>
     </footer>
 
